@@ -1,8 +1,9 @@
 ---
-title: "Git: a key tool for reproducibility in Science"
+title: "Git: A key tool for reproducibility in Science"
 author: "Joel Lafond-Lapalme"
 format: 
   revealjs:
+    logo: images/AAFC_logo.png
     slide-number: true
     theme: serif
     mermaid-format: png
@@ -56,10 +57,10 @@ format:
 
 <br>
 
--   Clear and Organize project
+-   Clear and Organized project
 -   Documentation
 
-## Clear and Organize project {.smaller}
+## Clear and Organized project {.smaller}
 
 <br>
 
@@ -146,14 +147,15 @@ library(tidyverse)
 library(vegan)
 
 # import data
-lettuce.df <- read_csv("data_lettuce.csv")
+data(iris)
 
-# Distribution of the yield by year
-lettuce.df %>%
-  filter( year > 2019) %>% # Remove data from pilot project (before 2020)
-  ggplot(aes(x = yield)) + 
-  geom_histogram(binwidth = 50)+ # decrease binwidth to smooth the distribution  
-  facet_wrap(~year)
+# Boxplot sepal length by species
+iris %>%
+  as_tibble() %>% # Convert to tibble format
+  ggplot(aes(x = Species, y = Sepal.Length))+
+  geom_boxplot(outlier.shape = NA)+ # Remove the outliers point
+  geom_jitter(width = 0.2, size = 1)+
+  labs(x = "Iris species", y = "Sepal Length")
 
 ```
 :::
@@ -164,9 +166,9 @@ lettuce.df %>%
 
 Use the README to guide others in your project:
 
--   **What?** Goals, Contributors
+-   **What?** Goals, History, Contributors
 -   **Where?** Data, File Structure
--   **How?** Usage, History
+-   **How?** Usage, Setup
 :::
 :::
 :::
@@ -191,11 +193,15 @@ Git is a version control software used for code management.
 ### → Enhance reproducibility of your code!
 :::
 
+::: footer
+Learn more about [Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F)
+:::
+
 ## Examples
 
 <br>
 
-### List of exemples where Git can help you.
+### List of examples where Git can help you.
 
 - Retrieve old codes, figures or analysis
 - Collaborate, share and contribute
@@ -204,19 +210,24 @@ Git is a version control software used for code management.
 
 ## Gitlab and Github {.smaller}
 
-Gitlab and Github is a web-based Git repository hosting platform used for:
+Gitlab and Github are web-based Git repository hosting platform used to:
 
-- Storing
-- Tracking
-- Collaborating 
-- Sharing
+- Store git repository
+- Backup your codes and documentation files
+- Collaborate and share with others
 - And more...
+
+You can customize visibility and permissions on your project:
+
+- Private or public
+- Who can see?
+- Who can edit?
 
 Example of a github: [NCBI account](https://github.com/ncbi/)
 
-AAFC has a inter Gitlab instance: [GCcode]()
+AAFC has an internal Gitlab instance: [GCcode](https://gccode.ssc-spc.gc.ca/)
 
-[BRSN GCcode]()
+
 
 ## Basics of git {.smaller}
 
@@ -230,9 +241,11 @@ AAFC has a inter Gitlab instance: [GCcode]()
 -   **Git branch**
 -   **Git merge**
 -   **Git tag**
--   **remote/local repository**
+-   **Remote/Local Repository**
 -   **Git push**
 -   **Git pull**
+-   **Git conflict**
+-   **.gitignore file**
 
 
 ------
@@ -240,15 +253,18 @@ AAFC has a inter Gitlab instance: [GCcode]()
 ### Git repository
 
 
-The repository is everything in your project folder that is track by Git. It includes all files, folders, history, commits,. 
+The repository is everything in your project folder that is tracked by Git. It includes all files, folders, history and commits. 
+
+<br>
 
 
+![](images/git_repo.jpg)
 
 ------
 
 ### Git commit
 
-The commit is the action of saving the current state of your repository. Commits always include a message or comment to help tracking the history of your project. 
+The commit is the action of saving the current state of your repository. Commits always include a message or comment to help track the history of your project. 
 
 
 ```{mermaid}
@@ -264,6 +280,7 @@ The commit is the action of saving the current state of your repository. Commits
 git commit -m "C2"
 ```
 
+::: fragment
 ```{mermaid}
 %%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': false, 'rotateCommitLabel':true}} }%%
       gitGraph
@@ -271,8 +288,10 @@ git commit -m "C2"
         commit id: "C2"
 
 ```
+:::
 
 
+::: fragment
 ```{bash}
 #| eval: false
 #| echo: true
@@ -289,6 +308,7 @@ git commit -m "C4"
         commit id: "C4"
 
 ```
+:::
 
 ------- 
 
@@ -310,6 +330,7 @@ specific branch without changing or breaking other branches.
 ```{bash}
 #| eval: false
 #| echo: true
+#| code-line-numbers: "1|2-4|5-6|7-8|"
 git branch develop
 git checkout develop
 git commit -m "C5"
@@ -589,17 +610,75 @@ Pull changes (commits) from the remote repository to the local repository
 :::
 
 
-## Create a Git repository
+## Git conflict {.smaller}
+
+Conflicts occur when competing changes are made to the same line of a file
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "|5,7,9|5-7|7-9|"
+
+# Table: mean sepal length by species
+iris %>%
+  as_tibble() %>%
+  group_by(Species)%>%
+<<<<<<< HEAD
+summarize(mean_sepeal_length = mean(Sepal.Length))
+=======
+summarize(mean_sepal_len = mean(Sepal.Length))
+>>>>>>> branch-a
+```
+
+To resolve a conflict: 
+
+- Fix the code by selecting the correct version
+- Remove the conflict markers
+- Save and commit the resolved conflict
+
+
+
+## .gitignore file
+
+<br>
+
+Add a *.gitignore* file to your repository to specify files or folders that you don't want Git to track.
+
+- User specific files
+- Temporary files
+
+#### .gitignore
+
+```{bash}
+#| echo: true
+#| eval: false
+user.config
+*.tmp
+my_data/*
+```
+
+::: footer
+Learn more about [gitignore](https://git-scm.com/docs/gitignore)
+:::
+
+## Create a Git repository {.smaller}
+
+<br>
 
 - From scratch on Gitlab/Github
 - From scratch on your local computer
 - From codes you already have on your local computer
 
 <br>
-**Rstudio** and **Visual Studio Code** have version control interface for Git. An easy way to start learning Git.
+[**Rstudio**](https://www.rstudio.com/) and [**Visual Studio Code**](https://code.visualstudio.com/) have version control user interface for Git. An easy way to start learning Git without using the command line.
+
+There is many useful VScode extensions for git like [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+and [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph)
 
 
-## Work with existing Git repository on Github/Gitlab
+## Work with existing Git repository on Github/Gitlab {.smaller}
+
+<br>
 
 #### Copy
 Copy (zip file) of all source codes of a project
@@ -614,30 +693,48 @@ Clone a repository to create a local repository link with the remote.
 #### Fork
 Fork a repository to create an independent copy of a Git repository.
 
+## Install and configure Git
 
-## Demo - Multiple users
+1. Go to [git-scm.com](https://git-scm.com/)
+2. Download and install for your OS
+3. Follow the instruction in this video to configure your Git user name and email (follow until 2:10).
+
+{{< video https://www.youtube.com/embed/wmnSyrRBKTw width="400" height="300" start="58" end="127" >}}
+
+
+
+## Demo - Multiple users {.smaller}
+
+<br>
 
 ::: columns
 ::: column
-User1: Rstudio
-:::
+### User1: Rstudio
 
-::: column
-User2: Visual Studio Code
-:::
-:::
+<br>
 
+#### Content: 
+
+- Initialize
 - Clone
 - Commit
 - Push
 - Pull
-- Branch
-- Merge
 - Conflict
+- Revert
+:::
 
-## Git workflow for team development
+::: column
+### User2: Visual Studio Code (VScode)
 
-Use Github/Gitlab to simplify collaboration in code development
+<br>
+
+#### Demo
+
+{{< video https://www.youtube.com/embed/EcONWTmYb44 width="500" height="300" >}}
+
+:::
+:::
 
 
 ## Branching and team development
@@ -688,40 +785,46 @@ gitGraph:
 ```
 
 
-## Issue tracking and pull requests
+## Issue tracking and pull request
 
-Check this [video](https://www.youtube.com/watch?v=w3jLJU7DT5E) to see how your team can integrate **issues** and **pull requests** to your Git workflow.
+<br>
 
-::: footer
-Learn more about git team development at this [link](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)
-:::
+### Git workflow for team development
 
-## project
+Use Github/Gitlab team development features to simplify and organize collaboration in code development
+
+{{< video https://www.youtube.com/embed/w3jLJU7DT5E width="500" height="350" >}}
+
+
+## Tips to avoid issues with Git
+
+- Avoid large files if possible
+- avoid MS Office files. **Use txt, csv, tsv**
+- Use the .gitignore to keep your repository clean
+- Multiple small commits are better than one large commit
+
+
+## Thank you {.smaller}
+
 ::: columns
 
-::: {.column width="60%"}
-### Project
+::: column
+![](images/brsn_logo.png)
 
+
+**Bioinformatics Research Support Network**
 :::
 
-::: {.column width="40%"}
-::: fragment
-:::{.callout-note}
-### Dataset
+::: column
+### Links and resources
 
-- yield(gram) of N lettuce
-- Control, Treatment A, Treatment B)
-- 2 years of data (2021, 2022)
+- More material on Git
+  - [Pro Git book](https://git-scm.com/book/en/v2)
+
+- Internal links
+  - [AAFC Gitlab](https://gccode.ssc-spc.gc.ca/)
+  - [BRSN Gitlab](https://gccode.ssc-spc.gc.ca/bioinformatics_aafc)
+  - [Git resources](https://gccode.ssc-spc.gc.ca/bioinformatics_aafc/training_documentation/git_resources)
+
 :::
 :::
-:::
-
-:::
-
-## Tips to avoid issue with Git
-
-- Large files
-- MS Office file
-- .gitignore
-- Frequency of commits
-

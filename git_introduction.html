@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.2.186">
 
   <meta name="author" content="Joel Lafond-Lapalme">
-  <title>Git: a key tool for reproducibility in Science</title>
+  <title>Git: A key tool for reproducibility in Science</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -388,7 +388,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Git: a key tool for reproducibility in Science</h1>
+  <h1 class="title">Git: A key tool for reproducibility in Science</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -481,14 +481,15 @@ Joel Lafond-Lapalme
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(vegan)</span>
 <span id="cb1-4"><a href="#cb1-4"></a></span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="co"># import data</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>lettuce.df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data_lettuce.csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">data</span>(iris)</span>
 <span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># Distribution of the yield by year</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a>lettuce.df <span class="sc">%&gt;%</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>  <span class="fu">filter</span>( year <span class="sc">&gt;</span> <span class="dv">2019</span>) <span class="sc">%&gt;%</span> <span class="co"># Remove data from pilot project (before 2020)</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> yield)) <span class="sc">+</span> </span>
-<span id="cb1-12"><a href="#cb1-12"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">50</span>)<span class="sc">+</span> <span class="co"># decrease binwidth to smooth the distribution  </span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># Boxplot sepal length by species</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>iris <span class="sc">%&gt;%</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> <span class="co"># Convert to tibble format</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Species, <span class="at">y =</span> Sepal.Length))<span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>)<span class="sc">+</span> <span class="co"># Remove the outliers point</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Iris species"</span>, <span class="at">y =</span> <span class="st">"Sepal Length"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:30%;">
 <div class="fragment">
@@ -524,6 +525,9 @@ Joel Lafond-Lapalme
 <!-- -->
 <h3 id="enhance-reproducibility-of-your-code">→ Enhance reproducibility of your code!</h3>
 </div>
+<div class="footer">
+<p>Learn more about <a href="https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F">Git</a></p>
+</div>
 </div>
 </section>
 <section id="examples" class="slide level2">
@@ -550,14 +554,11 @@ Joel Lafond-Lapalme
 <p>You can customize visibility and permissions on your project:</p>
 <ul>
 <li>Private or public</li>
-<li>Custom
-<ul>
 <li>Who can see?</li>
 <li>Who can edit?</li>
-</ul></li>
 </ul>
 <p>Example of a github: <a href="https://github.com/ncbi/">NCBI account</a></p>
-<p>AAFC has an internal Gitlab instance: <a href="">GCcode</a></p>
+<p>AAFC has an internal Gitlab instance: <a href="https://gccode.ssc-spc.gc.ca/">GCcode</a></p>
 </section>
 <section id="basics-of-git" class="slide level2 smaller">
 <h2>Basics of git</h2>
@@ -572,13 +573,15 @@ Joel Lafond-Lapalme
 <li><strong>Remote/Local Repository</strong></li>
 <li><strong>Git push</strong></li>
 <li><strong>Git pull</strong></li>
+<li><strong>Git conflict</strong></li>
+<li><strong>.gitignore file</strong></li>
 </ul>
 </section>
 <section class="slide level2">
 
 <h3 id="git-repository">Git repository</h3>
 <p>The repository is everything in your project folder that is tracked by Git. It includes all files, folders, history and commits.</p>
-<p><br> <br></p>
+<p><br></p>
 
 <img data-src="images/git_repo.jpg" class="r-stretch"></section>
 <section class="slide level2">
@@ -786,7 +789,46 @@ Joel Lafond-Lapalme
 </div>
 </div>
 </section>
-<section id="create-a-git-repository" class="slide level2">
+<section id="git-conflict" class="slide level2 smaller">
+<h2>Git conflict</h2>
+<p>Conflicts occur when competing changes are made to the same line of a file</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" data-code-line-numbers="|5,7,9|5-7|7-9|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># Table: mean sepal length by species</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>iris <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">group_by</span>(Species)<span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="er">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> HEAD</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="fu">summarize</span>(<span class="at">mean_sepeal_length =</span> <span class="fu">mean</span>(Sepal.Length))</span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="sc">==</span><span class="er">=====</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="fu">summarize</span>(<span class="at">mean_sepal_len =</span> <span class="fu">mean</span>(Sepal.Length))</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="sc">&gt;</span><span class="er">&gt;&gt;&gt;&gt;&gt;&gt;</span> branch<span class="sc">-</span>a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To resolve a conflict:</p>
+<ul>
+<li>Fix the code by selecting the correct version</li>
+<li>Remove the conflict markers</li>
+<li>Save and commit the resolved conflict</li>
+</ul>
+</section>
+<section id="gitignore-file" class="slide level2">
+<h2>.gitignore file</h2>
+<p><br></p>
+<p>Add a <em>.gitignore</em> file to your repository to specify files or folders that you don’t want Git to track.</p>
+<ul>
+<li>User specific files</li>
+<li>Temporary files</li>
+</ul>
+<h4 id="gitignore">.gitignore</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">user.config</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="ex">*.tmp</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="ex">my_data/*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p>Learn more about <a href="https://git-scm.com/docs/gitignore">gitignore</a></p>
+</div>
+</section>
+<section id="create-a-git-repository" class="slide level2 smaller">
 <h2>Create a Git repository</h2>
 <p><br></p>
 <ul>
@@ -795,9 +837,11 @@ Joel Lafond-Lapalme
 <li>From codes you already have on your local computer</li>
 </ul>
 <p><br> <a href="https://www.rstudio.com/"><strong>Rstudio</strong></a> and <a href="https://code.visualstudio.com/"><strong>Visual Studio Code</strong></a> have version control user interface for Git. An easy way to start learning Git without using the command line.</p>
+<p>There is many useful VScode extensions for git like <a href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">GitLens</a> and <a href="https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph">Git Graph</a></p>
 </section>
 <section id="work-with-existing-git-repository-on-githubgitlab" class="slide level2 smaller">
 <h2>Work with existing Git repository on Github/Gitlab</h2>
+<p><br></p>
 <h4 id="copy">Copy</h4>
 <p>Copy (zip file) of all source codes of a project</p>
 <p><br></p>
@@ -807,6 +851,15 @@ Joel Lafond-Lapalme
 <h4 id="fork">Fork</h4>
 <p>Fork a repository to create an independent copy of a Git repository.</p>
 </section>
+<section id="install-and-configure-git" class="slide level2">
+<h2>Install and configure Git</h2>
+<ol type="1">
+<li>Go to <a href="https://git-scm.com/">git-scm.com</a></li>
+<li>Download and install for your OS</li>
+<li>Follow the instruction in this video to configure your Git user name and email (follow until 2:10).</li>
+</ol>
+<iframe src="https://www.youtube.com/embed/wmnSyrRBKTw?start=58" width="400" height="300" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+</section>
 <section id="demo---multiple-users" class="slide level2 smaller">
 <h2>Demo - Multiple users</h2>
 <p><br></p>
@@ -814,21 +867,21 @@ Joel Lafond-Lapalme
 <div class="column">
 <h3 id="user1-rstudio">User1: Rstudio</h3>
 <p><br></p>
-<p>Content:</p>
+<h4 id="content">Content:</h4>
 <ul>
 <li>Initialize</li>
 <li>Clone</li>
 <li>Commit</li>
 <li>Push</li>
 <li>Pull</li>
-<li>Branch</li>
-<li>Merge</li>
 <li>Conflict</li>
+<li>Revert</li>
 </ul>
 </div><div class="column">
-<h3 id="user2-visual-studio-code-vscode">User2: Visual Studio Code (vscode)</h3>
+<h3 id="user2-visual-studio-code-vscode">User2: Visual Studio Code (VScode)</h3>
 <p><br></p>
-<p><a href="">insert video link</a></p>
+<h4 id="demo">Demo</h4>
+<iframe src="https://www.youtube.com/embed/EcONWTmYb44" width="500" height="300" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 </div>
 </div>
 </section>
@@ -870,30 +923,32 @@ Joel Lafond-Lapalme
 <ul>
 <li>Avoid large files if possible</li>
 <li>avoid MS Office files. <strong>Use txt, csv, tsv</strong></li>
-<li>Use the .gitignore</li>
-<li>Keep your commit small and add a clear commit message.</li>
+<li>Use the .gitignore to keep your repository clean</li>
+<li>Multiple small commits are better than one large commit</li>
 </ul>
 </section>
-<section id="what-if-i-am-not-a-programmer" class="slide level2">
-<h2>What if I am not a programmer?</h2>
-<p>Github has many thing to offer for non-programmer</p>
-<ul>
-<li>Infinite resource of tutorial, workshop and learning material</li>
-<li>You can create amazing documentation or wiki using markdown</li>
-</ul>
-</section>
-<section id="thank-you" class="slide level2">
+<section id="thank-you" class="slide level2 smaller">
 <h2>Thank you</h2>
-<p><img data-src="images/brsn_logo.png"> <strong>Bioinformatics Research Support Network</strong></p>
-<p><br></p>
+<div class="columns">
+<div class="column">
+<p><img data-src="images/brsn_logo.png"></p>
+<p><strong>Bioinformatics Research Support Network</strong></p>
+</div><div class="column">
 <h3 id="links-and-resources">Links and resources</h3>
 <ul>
-<li>BRSN Gitlab
+<li>More material on Git
 <ul>
-<li>Git_resources</li>
-<li>Lots of Bioinformatics content</li>
+<li><a href="https://git-scm.com/book/en/v2">The entire Pro Git book</a></li>
+</ul></li>
+<li>Internal links
+<ul>
+<li><a href="https://gccode.ssc-spc.gc.ca/">AAFC Gitlab</a></li>
+<li><a href="https://gccode.ssc-spc.gc.ca/bioinformatics_aafc">BRSN Gitlab</a></li>
+<li><a href="https://gccode.ssc-spc.gc.ca/bioinformatics_aafc/training_documentation/git_resources">Git resources</a></li>
 </ul></li>
 </ul>
+</div>
+</div>
 <p><img src="images/AAFC_logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
 
