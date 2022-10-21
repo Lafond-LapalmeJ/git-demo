@@ -1,0 +1,727 @@
+---
+title: "Git: a key tool for reproducibility in Science"
+author: "Joel Lafond-Lapalme"
+format: 
+  revealjs:
+    slide-number: true
+    theme: serif
+    mermaid-format: png
+---
+
+## Reproducibility in Science
+
+> The thing that separates what we do in science versus magic is **reproducibility**
+
+\- *Martin J. Elliott*
+
+## Code reproducibility in Science
+
+<br>
+
+### Project timeline
+
+```{mermaid}
+  %%{init: {'theme': 'base',
+    "themeVariables": {"tagLabelFontSize": "20px"},
+    "gitGraph": {"showBranches": false, "showCommitLabel": false}
+  }}%%
+  
+      gitGraph:
+        commit type: HIGHLIGHT tag: "Project start"
+        commit
+        commit type: HIGHLIGHT
+        commit tag: "Presentation lab meeting"
+        commit
+        commit
+        commit
+        commit type: HIGHLIGHT
+        commit tag: "Draft paper X"
+        commit
+        commit type: HIGHLIGHT
+        commit tag: "Correction paper X"
+        commit
+        commit
+        commit type: HIGHLIGHT
+        commit tag: "Poster conference Y"
+        
+  
+```
+
+-   Your code evolves with your project
+-   You should be able to retrieve the code at any key points of your project.
+-   You will have to share your code with others or with your future self
+
+
+## Key elements for code reproducibility
+
+<br>
+
+-   Clear and Organize project
+-   Documentation
+
+## Clear and Organize project {.smaller}
+
+<br>
+
+::: columns
+::: column
+![](images/messy_workflow.JPG)
+:::
+
+::: column
+::: fragment
+### Code organization
+
+-   Within your files
+-   Between your files
+-   Understandable by others
+-   Across time
+:::
+:::
+:::
+
+::: fragment
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'showCommitLabel':false}} }%%
+      gitGraph:
+        commit
+        branch hotfix
+        checkout hotfix
+        commit
+        branch develop
+        checkout develop
+        branch featureB
+        checkout featureB
+        commit type:HIGHLIGHT
+        checkout main
+        checkout hotfix
+        commit type:NORMAL
+        checkout develop
+        commit type:REVERSE
+        checkout featureB
+        commit
+        checkout main
+        merge hotfix
+        checkout featureB
+        commit
+        checkout develop
+        branch featureA
+        commit
+        checkout develop
+        merge hotfix
+        checkout featureA
+        commit
+        checkout featureB
+        commit
+        checkout develop
+        merge featureA
+        commit
+        commit
+        checkout main
+        merge develop
+  
+```
+:::
+## Documentation {.smaller}
+
+> Documentation is a love letter to your future self.
+
+\- *Damien Conway*
+
+<br/>
+
+. . .
+
+::: columns
+::: {.column width="70%"}
+#### Within code
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: "|1,5,8|10,12|"
+
+# Load required libraries
+library(tidyverse)
+library(vegan)
+
+# import data
+lettuce.df <- read_csv("data_lettuce.csv")
+
+# Distribution of the yield by year
+lettuce.df %>%
+  filter( year > 2019) %>% # Remove data from pilot project (before 2020)
+  ggplot(aes(x = yield)) + 
+  geom_histogram(binwidth = 50)+ # decrease binwidth to smooth the distribution  
+  facet_wrap(~year)
+
+```
+:::
+
+::: {.column width="30%"}
+::: fragment
+#### README file
+
+Use the README to guide others in your project:
+
+-   **What?** Goals, Contributors
+-   **Where?** Data, File Structure
+-   **How?** Usage, History
+:::
+:::
+:::
+
+## What is git? {.smaller}
+
+Git is a version control software used for code management.
+
+. . .
+
+<br>
+
+### Why should I use Git?
+
+-   Trace changes
+    -   Over time
+    -   Between colleagues and collaborators
+-   Document changes
+-   Have the option to go back in time
+
+::: fragment
+### → Enhance reproducibility of your code!
+:::
+
+## Examples
+
+<br>
+
+### List of exemples where Git can help you.
+
+- Retrieve old codes, figures or analysis
+- Collaborate, share and contribute
+- Continuous development without disturbing the usage of a tool  
+- Full Documentation of a project
+
+## Gitlab and Github {.smaller}
+
+Gitlab and Github is a web-based Git repository hosting platform used for:
+
+- Storing
+- Tracking
+- Collaborating 
+- Sharing
+- And more...
+
+Example of a github: [NCBI account](https://github.com/ncbi/)
+
+AAFC has a inter Gitlab instance: [GCcode]()
+
+[BRSN GCcode]()
+
+## Basics of git {.smaller}
+
+<br>
+
+### Terms, Commands and Definition
+
+
+-   **Git repository**
+-   **Git commit**
+-   **Git branch**
+-   **Git merge**
+-   **Git tag**
+-   **remote/local repository**
+-   **Git push**
+-   **Git pull**
+
+
+------
+
+### Git repository
+
+
+The repository is everything in your project folder that is track by Git. It includes all files, folders, history, commits,. 
+
+
+
+------
+
+### Git commit
+
+The commit is the action of saving the current state of your repository. Commits always include a message or comment to help tracking the history of your project. 
+
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': false, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+
+```
+
+```{bash}
+#| eval: false
+#| echo: true
+git commit -m "C2"
+```
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': false, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+
+```
+
+
+```{bash}
+#| eval: false
+#| echo: true
+git commit -m "C3"
+git commit -m "C4"
+```
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': false, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+
+```
+
+------- 
+
+### Git branch
+
+Use branches to organize your commits. You can work on a
+specific branch without changing or breaking other branches.
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+
+```
+
+```{bash}
+#| eval: false
+#| echo: true
+git branch develop
+git checkout develop
+git commit -m "C5"
+git commit -m "C6"
+git checkout main
+git commit -m "C7"
+git checkout develop
+git commit -m "C8"
+```
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel': true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+        checkout develop
+        commit id: "C8"
+
+```
+
+
+------
+
+### Git merge 
+
+A merge is the action of merging the commits of a branch to another branch
+
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel': true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+        checkout develop
+        commit id: "C8"
+
+```
+
+```{bash}
+#| eval: false
+#| echo: true
+git checkout main
+git merge develop
+```
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+        checkout develop
+        commit id: "C8"
+        checkout main
+        merge develop
+
+```
+
+------
+
+## Remote and Local repository
+
+::: columns
+
+::: column
+**Local repository** is your git repository on your local computer or HPC. Usually the repository you are working on. 
+
+![](images/laptop.png){width=50%}
+:::
+
+::: column
+**Remote repository** is a version of your project hosted on a server (usually Github or Gitlab)
+
+![](images/Github.png){width=50%}
+:::
+:::
+
+------
+
+### Git Push
+
+Push changes (commits) from the local repository to the remote repository
+
+::: columns
+
+::: {.column width="45%"}
+![](images/laptop.png){width=50%}
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+        checkout develop
+        commit id: "C8"
+        checkout main
+        merge develop
+
+```
+:::
+
+::: {.column width="10%"}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+&rarr;
+:::
+
+::: {.column width="45%"}
+![](images/Github.png){width=50%}
+
+::: {.r-stack}
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+
+```
+
+::: {.fragment}
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+        checkout develop
+        commit id: "C8"
+        checkout main
+        merge develop
+
+```
+:::
+:::
+:::
+:::
+
+
+------
+
+### Git Pull
+
+Pull changes (commits) from the remote repository to the local repository
+
+
+::: columns
+
+::: {.column width="45%"}
+![](images/laptop.png){width=50%}
+
+::: {.r-stack}
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+
+```
+
+::: {.fragment}
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+        checkout develop
+        commit id: "C8"
+        checkout main
+        merge develop
+
+```
+:::
+:::
+:::
+
+::: {.column width="10%"}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+&larr;
+:::
+
+::: {.column width="45%"}
+![](images/Github.png){width=50%}
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'showBranches': true, 'rotateCommitLabel':true}} }%%
+      gitGraph
+        commit id: "First commit"
+        commit id: "C2"
+        commit id: "C3"
+        commit id: "C4"
+        branch develop
+        checkout develop
+        commit id: "C5"
+        commit id: "C6"
+        checkout main
+        commit id: "C7"
+        checkout develop
+        commit id: "C8"
+        checkout main
+        merge develop
+
+```
+:::
+:::
+
+
+## Create a Git repository
+
+- From scratch on Gitlab/Github
+- From scratch on your local computer
+- From codes you already have on your local computer
+
+<br>
+**Rstudio** and **Visual Studio Code** have version control interface for Git. An easy way to start learning Git.
+
+
+## Work with existing Git repository on Github/Gitlab
+
+#### Copy
+Copy (zip file) of all source codes of a project
+
+<br>
+
+#### Clone
+Clone a repository to create a local repository link with the remote.
+
+<br>
+
+#### Fork
+Fork a repository to create an independent copy of a Git repository.
+
+
+## Demo - Multiple users
+
+::: columns
+::: column
+User1: Rstudio
+:::
+
+::: column
+User2: Visual Studio Code
+:::
+:::
+
+- Clone
+- Commit
+- Push
+- Pull
+- Branch
+- Merge
+- Conflict
+
+## Git workflow for team development
+
+Use Github/Gitlab to simplify collaboration in code development
+
+
+## Branching and team development
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'rotateCommitLabel': true}}}%%
+gitGraph:
+  commit id: "C1"
+  commit id: "C2"
+  commit id: "C3"
+  commit id: "C4"
+  commit id: "C5"
+  commit id: "C6"
+  commit id: "C7"
+  commit id: "C8"
+  commit id: "C9"
+```
+
+. . .
+
+Organize your commits using branches and tags to avoid issues on your **main** branch
+
+. . .
+
+```{mermaid}
+%%{init: { 'logLevel': 'debug', 'theme': 'base', 'gitGraph': {'rotateCommitLabel': true }}}%%
+  
+gitGraph:
+
+  commit id: "C1"
+  commit id: "C2"
+  branch dev
+  commit id: "C3"
+  branch feature-XYZ
+  commit id: "C4"
+  commit id: "C5"
+  checkout dev
+  commit id: "C6"
+  merge feature-XYZ
+  commit id: "fix feature-xyz"
+  checkout main
+  merge dev tag: "V1.0"
+  checkout dev
+  commit id: "fix bug A"
+  commit id: "fix bug B"
+  checkout main
+  merge dev tag: "V1.1"
+```
+
+
+## Issue tracking and pull requests
+
+Check this [video](https://www.youtube.com/watch?v=w3jLJU7DT5E) to see how your team can integrate **issues** and **pull requests** to your Git workflow.
+
+::: footer
+Learn more about git team development at this [link](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)
+:::
+
+## project
+::: columns
+
+::: {.column width="60%"}
+### Project
+
+:::
+
+::: {.column width="40%"}
+::: fragment
+:::{.callout-note}
+### Dataset
+
+- yield(gram) of N lettuce
+- Control, Treatment A, Treatment B)
+- 2 years of data (2021, 2022)
+:::
+:::
+:::
+
+:::
+
+## Tips to avoid issue with Git
+
+- Large files
+- MS Office file
+- .gitignore
+- Frequency of commits
+
