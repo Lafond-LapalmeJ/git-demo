@@ -210,9 +210,9 @@ Learn more about [Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Gi
 
 ## Gitlab and Github {.smaller}
 
-Gitlab and Github are web-based Git repository hosting platform used to:
+Gitlab and Github are web-based Git repository hosting platforms used to:
 
-- Store git repository
+- Store git repositories
 - Backup your codes and documentation files
 - Collaborate and share with others
 - And more...
@@ -672,7 +672,7 @@ Learn more about [gitignore](https://git-scm.com/docs/gitignore)
 <br>
 [**Rstudio**](https://www.rstudio.com/) and [**Visual Studio Code**](https://code.visualstudio.com/) have version control user interface for Git. An easy way to start learning Git without using the command line.
 
-There is many useful VScode extensions for git like [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+There are many useful VScode extensions for git like [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 and [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph)
 
 
