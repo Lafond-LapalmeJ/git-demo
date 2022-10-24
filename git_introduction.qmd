@@ -197,16 +197,6 @@ Git is a version control software used for code management.
 Learn more about [Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F)
 :::
 
-## Examples
-
-<br>
-
-### List of examples where Git can help you.
-
-- Retrieve old codes, figures or analysis
-- Collaborate, share and contribute
-- Continuous development without disturbing the usage of a tool  
-- Sync documentation and code
 
 ## Gitlab and Github {.smaller}
 
