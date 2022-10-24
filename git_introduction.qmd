@@ -183,7 +183,7 @@ Git is a version control software used for code management.
 
 ### Why should I use Git?
 
--   Trace changes
+-   Track changes
     -   Over time
     -   Between colleagues and collaborators
 -   Document changes
@@ -206,7 +206,7 @@ Learn more about [Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Gi
 - Retrieve old codes, figures or analysis
 - Collaborate, share and contribute
 - Continuous development without disturbing the usage of a tool  
-- Full Documentation of a project
+- Sync documentation and code
 
 ## Gitlab and Github {.smaller}
 
@@ -799,7 +799,7 @@ Use Github/Gitlab team development features to simplify and organize collaborati
 ## Tips to avoid issues with Git
 
 - Avoid large files if possible
-- avoid MS Office files. **Use txt, csv, tsv**
+- Avoid MS Office files. **Use txt, csv, tsv**
 - Use the .gitignore to keep your repository clean
 - Multiple small commits are better than one large commit
 
